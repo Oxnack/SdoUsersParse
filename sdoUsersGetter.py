@@ -28,17 +28,13 @@ def extract_info(html):
 
     return full_name, email
 
-# Вызов функции и вывод результата
-fio, email = extract_info(html)
-print(f"ФИО: {fio}")
-print(f"Email: {email}")
 
 
 
 def fetch_html(course_id: int) -> str:
     url = f"https://sdo24.1580.ru/user/view.php?id=1881&course={course_id}"
     headers = {
-        "Cookie": "MoodleSession=isv7am1rkctrf89t8ktu6u18qt; MOODLEID1_=sodium%3AbE0wkD88jzvUPgzNS5f8M0cx%2F4%2Blqal9i9CD3GoZngVbIyx8GrrwaW7%2FrphAFN%2FOdrY%3D"
+        "Cookie": cookie
     }
     
     response = requests.get(url, headers=headers)
