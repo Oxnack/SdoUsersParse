@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import re
 import requests
 from config import *
+import csv
+import os
 
 html = """
 <div class="page-header-image">
@@ -45,12 +47,35 @@ def fetch_html(course_id: int) -> str:
     else:
         raise Exception(f"Error: {response.status_code} - {response.text}")
 
+
+
+
+
+def save_to_csv(full_name: str, email: str, filename: str = 'data.csv'):
+    # Проверяем, существует ли файл
+    file_exists = os.path.isfile(filename)
+
+    # Открываем файл в режиме добавления
+    with open(filename, mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+
+        # Если файл новый, записываем заголовки
+        if not file_exists:
+            writer.writerow(['Full Name', 'Email'])
+
+        # Записываем данные
+        writer.writerow([full_name, email])
+
 # Пример использования функции
 if __name__ == "__main__":
-    course_number = 56 # Замените на нужное число
+    course_number = 58 # Замените на нужное число
     try:
         html_content = fetch_html(course_number)
-        print(html_content)  # Выводим HTML-контент
+
+        fio, email = extract_info(html_content)
+        print(f"ФИО, gmail: \"{fio}\" , " + email)
+        
+        save_to_csv(fio, email)
+        
     except Exception as e:
         print(e)
-
