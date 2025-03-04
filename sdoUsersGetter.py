@@ -10,14 +10,14 @@ import os
 def extract_info(html):
     soup = BeautifulSoup(html, 'html.parser')
 
-    # Извлечение ФИО
+    
     try:
         full_name = soup.find('h1', class_='h2 mb-0').get_text(strip=True)
     except AttributeError:
         print("no attribute")
         full_name = "error"
 
-    # Извлечение email
+   
     try:
         email_link = soup.find('a', href=re.compile(r'mailto:'))
         if email_link:
@@ -54,23 +54,23 @@ def fetch_html(course_id: int) -> str:
 
 
 def save_to_csv(full_name: str, email: str, filename: str = 'data.csv'):
-    # Проверяем, существует ли файл
+   
     file_exists = os.path.isfile(filename)
 
-    # Открываем файл в режиме добавления
+    
     with open(filename, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
 
-        # Если файл новый, записываем заголовки
+       
         if not file_exists:
             writer.writerow(['Full Name', 'Email'])
 
-        # Записываем данные
+       
         writer.writerow([full_name, email])
 
-# Пример использования функции
+
 if __name__ == "__main__":
-    course_number = 0 # Замените на нужное число
+    course_number = 0 
     try:
         for i in range(6489, 1000000):
             course_number = i
